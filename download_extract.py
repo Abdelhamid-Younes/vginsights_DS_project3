@@ -1,16 +1,11 @@
 from urllib.request import urlopen
 import py7zr
 import os
-# Download and extract data
-
-save_as = 'VG_Insights.7z'
-url = 'https://analyticsengineeringprojects.s3.eu-west-1.amazonaws.com/VG_Insights.7z'
 
 
-def download_data():
+def download_data(data_dir_path, url, save_as):
 
-    path = "./data"
-    os.mkdir( path, 0o755 );
+    os.mkdir( data_dir_path, 0o755 );
 
     with urlopen(url) as file:
         content = file.read()
@@ -19,11 +14,8 @@ def download_data():
         download.write(content)
         
         
-def extract_data():
+def extract_data(save_as, data_dir_path):
     with py7zr.SevenZipFile(save_as, 'r') as archive:
-        archive.extractall(path='./data')
+        archive.extractall(data_dir_path)
         
 ###########################################################################
-
-download_data()
-extract_data()

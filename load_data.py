@@ -9,7 +9,6 @@ import mysql.connector
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.types import *
-from tables import games_schema, genres_schema, languages_schema, companies_schema, subgenres_schema, meta_schema, developers_schema, publishers_schema, regionals_schema, stats_schema, history_schema, performances_schema
 
 db_user='root'        
 db_password='password'
@@ -17,8 +16,8 @@ db_host='127.0.0.1'
 db_name='vgi_db'
 
 
-def create_DataFrames():
-    files_list = glob.glob('./data/Games5/*game_url.json')
+def create_DataFrames(data_dir_path):
+    files_list = glob.glob('{}/Games5/*game_url.json'.format(data_dir_path))
     df_games_raw = pd.concat((pd.json_normalize(json.load(open(file))) for file in files_list), ignore_index=True)
     
     # Create_df_languages
@@ -75,8 +74,8 @@ def create_DataFrames():
     
     return df_languages, df_genres, df_developers, df_publishers, df_games
 
-def create_df_companies():
-    files_list = glob.glob('./data/Games5/*companies_url.json')
+def create_df_companies(data_dir_path):
+    files_list = glob.glob('{}/Games5/*companies_url.json'.format(data_dir_path))
     df_companies = pd.DataFrame()
     for file in files_list:
         data = json.load(open(file))
@@ -99,8 +98,8 @@ def create_df_companies():
     
     return df_companies
     
-def create_df_meta():
-    files_list = glob.glob('./data/Games5/*meta_url.json')
+def create_df_meta(data_dir_path):
+    files_list = glob.glob('{}/Games5/*meta_url.json'.format(data_dir_path))
     df_meta = pd.concat((pd.json_normalize(json.load(open(file))) for file in files_list), ignore_index=True)
     df_meta.drop(["meta.releaseDateAlt", "name", "game_id"], axis=1, inplace=True)
     df_meta.rename(columns = {'meta.website':'website',
@@ -112,8 +111,8 @@ def create_df_meta():
     return df_meta
     
     
-def create_df_regionals():
-    files_list = glob.glob('./data/Games5/*regional_url.json')
+def create_df_regionals(data_dir_path):
+    files_list = glob.glob('{}/Games5/*regional_url.json'.format(data_dir_path))
     df_regionals = pd.DataFrame()
     for file in files_list:
         title = os.path.basename(file)
@@ -128,8 +127,8 @@ def create_df_regionals():
     
     return df_regionals
 
-def create_df_subgenres():
-    files_list = glob.glob('./data/Games5/*subgenre_url.json')
+def create_df_subgenres(data_dir_path):
+    files_list = glob.glob('{}/Games5/*subgenre_url.json'.format(data_dir_path))
     df_subgenres = pd.DataFrame()
     for file in files_list:
         title = os.path.basename(file)
@@ -140,8 +139,8 @@ def create_df_subgenres():
     
     return df_subgenres
 
-def create_df_stats():
-    files_list = glob.glob('./data/Games5/*stats_url.json')
+def create_df_stats(data_dir_path):
+    files_list = glob.glob('{}/Games5/*stats_url.json'.format(data_dir_path))
     df_stats = pd.DataFrame()
     for file in files_list:
         title = os.path.basename(file)
@@ -164,8 +163,8 @@ def create_df_stats():
     
     return df_stats    
     
-def create_df_performances():
-    files_list = glob.glob('./data/Games5/*performance_url.json')
+def create_df_performances(data_dir_path):
+    files_list = glob.glob('{}/Games5/*performance_url.json'.format(data_dir_path))
     df_performances = pd.DataFrame()
     for file in files_list:
         title = os.path.basename(file)
@@ -177,8 +176,8 @@ def create_df_performances():
     
     return df_performances
 
-def create_df_history():
-    '''files_list = glob.glob('./data/Games5/*history_url.json')
+def create_df_history(data_dir_path):
+    '''files_list = glob.glob('{}/Games5/*history_url.json'.format(data_dir_path))
     df_history = pd.DataFrame()
     for file in files_list:
         title= file.rsplit('\\', 1)[1]
@@ -192,7 +191,7 @@ def create_df_history():
     df_history = pd.read_csv('./history.csv')
     return df_history
 
-def loading_to_db(df_name, table_name, table_schema):
+def load_to_db(df_name, table_name, table_schema, db_user, db_password, db_host, db_name):
     
     print(f' Loading data to {table_name} table ......')
     
@@ -231,7 +230,7 @@ df_stats = create_df_stats()
 loading_to_db(df_name=df_stats, table_name='stats', table_schema=stats_schema)
 
 df_performances = create_df_performances()
-loading_to_db(df_name=df_performances, table_name='performances', table_schema=performances_schema)'''
+loading_to_db(df_name=df_performances, table_name='performances', table_schema=performances_schema)
 
 df_history = create_df_history()
 
@@ -242,3 +241,4 @@ print(f'Fetching data...')
 loading_to_db(df_name=df_history, table_name='history', table_schema=history_schema)
 
 print("Time taken to load data loaded to database .... :   %s seconds ---" % (time.time() - start_time))
+'''

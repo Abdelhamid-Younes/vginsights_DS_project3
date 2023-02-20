@@ -1,20 +1,15 @@
 import mysql.connector
 
-db_user='root'
-db_password='password'
-db_host='127.0.0.1'
-db_name='vgi_db'
-
-
 
 def create_db(user, password, host, db_name):
 
-    try:
+    
         #establishing the connection to db
-        conn = mysql.connector.connect(user=user, password=password, host=host)
+    conn = mysql.connector.connect(user=user, password=password, host=host)
         #Creating a cursor object using the cursor() method
-        cursor = conn.cursor()
-
+    cursor = conn.cursor()
+    
+    try:
         #Droping database if already exists.
         cursor.execute(f"DROP DATABASE IF EXISTS {db_name}")
         #Creating the database
@@ -32,4 +27,4 @@ def create_db(user, password, host, db_name):
 
 #########################################################################################
 
-create_db(db_user, db_password, db_host, db_name)
+

@@ -1,0 +1,6 @@
+py7zr
+pyyaml-6.0
+mysql-connector-python-8.0.32
+sqlalchemy-2.0.4
+pandas
+unidecode
