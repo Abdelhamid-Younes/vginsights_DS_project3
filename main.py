@@ -1,13 +1,11 @@
 #import os
-#import yaml
 import time
 import db_config as cfg
-from download_extract import download_data, extract_data
-from create_db import create_db
-from create_tables import create_tables
-from load_data import create_df_meta, create_DataFrames, create_df_companies, create_df_history, create_df_performances, create_df_regionals, create_df_stats, create_df_subgenres, load_to_db
-from tables import games_schema, genres_schema, languages_schema, companies_schema, subgenres_schema, meta_schema, developers_schema, publishers_schema, regionals_schema, stats_schema, history_schema, performances_schema
-
+from extract.download_extract import download_data, extract_data
+from database.create_db import create_db
+from database.create_tables import create_tables
+from transform_load.load_data import create_df_meta, create_DataFrames, create_df_companies, create_df_history, create_df_performances, create_df_regionals, create_df_stats, create_df_subgenres, load_to_db
+from database.tables import games_schema, genres_schema, languages_schema, companies_schema, subgenres_schema, meta_schema, developers_schema, publishers_schema, regionals_schema, stats_schema, history_schema, performances_schema
 
 db_user=cfg.MY_DB["user"]   
 db_password=cfg.MY_DB["password"] 
@@ -20,14 +18,14 @@ data_dir_path=cfg.paths['data_dir_path']
 
 start_time=time.time()
 
-print("------------------ Starting process --------------", end='\r')
+print("------------------ Start ETL process --------------", end='\r')
 print("------------------------------------------------------------")
 
-#print("Loading compressed file ..........................", end='\r')
-#download_data( data_dir_path, url, save_as)
+print("Loading compressed file ..........................", end='\r')
+download_data( data_dir_path, url, save_as)
 
-#print("Extracting data ..................................", end='\r')
-#extract_data(save_as, data_dir_path)
+print("Extracting data ..................................", end='\r')
+extract_data(save_as, data_dir_path)
 
 print("Creating database ................................", end='\r')
 create_db(db_user, db_password, db_host, db_name)
