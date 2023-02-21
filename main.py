@@ -75,20 +75,7 @@ loading_to_db(df_name=df_history, table_name='history', table_schema=history_sch
 
 
 
-
 '''    
-
-print("IMPORTING cleaning data to db .............                      ", end='\r')
-
-
-parse_directory(players_dir, db, 'players_raw',db_log,error_log)
-    
-# ------------- END  PART OF  CHESS_RAW  AND PLAYERS_ RAW  -------------------------
-    
-# ------------- IMPORTING CHESS_RAW  AND PLAYERS_ RAW to dedicate tables -----------
-    
-print("TRANSFORM data into entity relationship model ....", end='\r')
-parse_datamodel(erd_dict=erd, host=db_host, database=db_database, user=db_user, password=db_password,db_log=db_log,error_log=error_log)
     
 print("------------------------------------------------------------")
 print("------------------- END OF LOAD ----------------------------")
