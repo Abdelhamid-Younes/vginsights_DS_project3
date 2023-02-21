@@ -19,7 +19,6 @@ data_dir_path=cfg.paths['data_dir_path']
 start_time=time.time()
 
 print("------------------ Start ETL process --------------", end='\r')
-print("------------------------------------------------------------")
 
 print("Loading compressed file ..........................", end='\r')
 download_data( data_dir_path, url, save_as)
@@ -35,7 +34,6 @@ create_tables(db_user, db_password, db_host, db_name)
 
 print("Creating dataframes from json files and cleaning raw data ...............")
 
-
 df_languages, df_genres, df_developers, df_publishers, df_games = create_DataFrames(data_dir_path)
 df_companies = create_df_companies(data_dir_path)
 df_meta = create_df_meta(data_dir_path)
@@ -43,9 +41,7 @@ df_regionals = create_df_regionals(data_dir_path)
 df_subgenres = create_df_subgenres(data_dir_path)
 df_stats = create_df_stats(data_dir_path)
 df_performances = create_df_performances(data_dir_path)
-
 df_history = create_df_history(data_dir_path)
-print(df_history)
 
 print("Loading data to db ..................................", end='\r')
 
@@ -64,7 +60,6 @@ load_to_db(df_performances, 'performances', performances_schema, db_user, db_pas
 load_to_db(df_history, 'history', history_schema, db_user, db_password, db_host, db_name)
 
     
-print("------------------------------------------------------------")
-print("------------------- END OF LOAD ----------------------------")
-
 print("Time taken  .... :   %s seconds ---" % (time.time() - start_time))
+
+print("-------------------ETL Process completed ----------------------------")
