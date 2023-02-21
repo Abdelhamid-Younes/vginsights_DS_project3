@@ -2,21 +2,20 @@ import pandas as pd
 import numpy as np
 import os, json
 import glob
-import time
 from unidecode import unidecode
-from datetime import datetime
-import mysql.connector
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy.types import *
-
-db_user='root'        
-db_password='password'
-db_host='127.0.0.1'   
-db_name='vgi_db'
 
 
 def create_DataFrames(data_dir_path):
+    """ This function serves to create clean dataframes from json files 
+
+    Args:
+        data_dir_path (str): The path directory where the raw data is stored
+
+    Returns:
+        Dataframe: Returns many dataframes with a cleaned data ready to load to db.
+    """
     files_list = glob.glob('{}/Games5/*game_url.json'.format(data_dir_path))
     df_games_raw = pd.concat((pd.json_normalize(json.load(open(file))) for file in files_list), ignore_index=True)
     
@@ -75,6 +74,14 @@ def create_DataFrames(data_dir_path):
     return df_languages, df_genres, df_developers, df_publishers, df_games
 
 def create_df_companies(data_dir_path):
+    """This function serves to create a dataframe from companies json files 
+
+    Args:
+        data_dir_path (str): The path directory where the raw data is stored
+
+    Returns:
+        Dataframe: Returns a dataframe with a cleaned data ready to load to db.
+    """
     files_list = glob.glob('{}/Games5/*companies_url.json'.format(data_dir_path))
     df_companies = pd.DataFrame()
     for file in files_list:
@@ -99,6 +106,14 @@ def create_df_companies(data_dir_path):
     return df_companies
     
 def create_df_meta(data_dir_path):
+    """This function serves to create a dataframe from meta json files 
+
+    Args:
+        data_dir_path (str): The path directory where the raw data is stored
+
+    Returns:
+        Dataframe: Returns a dataframe with a cleaned data ready to load to db.
+    """
     files_list = glob.glob('{}/Games5/*meta_url.json'.format(data_dir_path))
     df_meta = pd.concat((pd.json_normalize(json.load(open(file))) for file in files_list), ignore_index=True)
     df_meta.drop(["meta.releaseDateAlt", "name", "game_id"], axis=1, inplace=True)
@@ -112,6 +127,14 @@ def create_df_meta(data_dir_path):
     
     
 def create_df_regionals(data_dir_path):
+    """This function serves to create a dataframe from regionals json files 
+
+    Args:
+        data_dir_path (str): The path directory where the raw data is stored
+
+    Returns:
+        Dataframe: Returns a dataframe with a cleaned data ready to load to db.
+    """
     files_list = glob.glob('{}/Games5/*regional_url.json'.format(data_dir_path))
     df_regionals = pd.DataFrame()
     for file in files_list:
@@ -128,6 +151,14 @@ def create_df_regionals(data_dir_path):
     return df_regionals
 
 def create_df_subgenres(data_dir_path):
+    """This function serves to create a dataframe from subgenres json files 
+
+    Args:
+        data_dir_path (str): The path directory where the raw data is stored
+
+    Returns:
+        Dataframe: Returns a dataframe with a cleaned data ready to load to db.
+    """
     files_list = glob.glob('{}/Games5/*subgenre_url.json'.format(data_dir_path))
     df_subgenres = pd.DataFrame()
     for file in files_list:
@@ -140,6 +171,14 @@ def create_df_subgenres(data_dir_path):
     return df_subgenres
 
 def create_df_stats(data_dir_path):
+    """This function serves to create a dataframe from stats and price json files 
+
+    Args:
+        data_dir_path (str): The path directory where the raw data is stored
+
+    Returns:
+        Dataframe: Returns a dataframe with a cleaned data ready to load to db.
+    """
     files_list = glob.glob('{}/Games5/*stats_url.json'.format(data_dir_path))
     df_stats = pd.DataFrame()
     for file in files_list:
@@ -164,6 +203,14 @@ def create_df_stats(data_dir_path):
     return df_stats    
     
 def create_df_performances(data_dir_path):
+    """This function serves to create a dataframe from performances json files 
+
+    Args:
+        data_dir_path (str): The path directory where the raw data is stored
+
+    Returns:
+        Dataframe: Returns a dataframe with a cleaned data ready to load to db.
+    """
     files_list = glob.glob('{}/Games5/*performance_url.json'.format(data_dir_path))
     df_performances = pd.DataFrame()
     for file in files_list:
@@ -177,21 +224,39 @@ def create_df_performances(data_dir_path):
     return df_performances
 
 def create_df_history(data_dir_path):
+    """This function serves to create a dataframe from history json files 
+
+    Args:
+        data_dir_path (str): The path directory where the raw data is stored
+
+    Returns:
+        Dataframe: Returns a dataframe with a cleaned data ready to load to db.
+    """
     '''files_list = glob.glob('{}/Games5/*history_url.json'.format(data_dir_path))
     df_history = pd.DataFrame()
     for file in files_list:
-        title= file.rsplit('\\', 1)[1]
+        title = os.path.basename(file)
         steam_id = title.split('_')[0]
         data = pd.json_normalize(json.load(open(file)))
         data.drop(['steam_id'], axis=1, inplace=True)
         data.insert(0, 'steam_id', steam_id)
         df_history = pd.concat([df_history,data],axis=0)
-    df_history.to_csv('./data/history.csv', index=False)
-    df_history = pd.read_csv('./history.csv')'''
-    df_history = pd.read_csv('./history.csv')
+    df_history.to_csv('{}/history.csv'.format(data_dir_path), index=False)'''
+    df_history = pd.read_csv('{}/history.csv'.format(data_dir_path))
     return df_history
 
 def load_to_db(df_name, table_name, table_schema, db_user, db_password, db_host, db_name):
+    """This function allows to write records stored in a DataFrame to a SQL database
+
+    Args:
+        df_name (DataFrame): The dataframe that contanins the records to be loaded to db.
+        table_name (str): The name of SQL table where the data will be written
+        table_schema (str): Contains the name of columns in dataframe that match the attributes in SQL table
+        user (str): Database user defined in config file.
+        password (str): The password of the user to connect to db, defined in config file.
+        host (str): IP address of the hostname, it defines the location of MySQL server and database.
+        db_name (str): the name of the database, defined in config file.
+    """
     
     print(f' Loading data to {table_name} table ......')
     
@@ -201,44 +266,3 @@ def load_to_db(df_name, table_name, table_schema, db_user, db_password, db_host,
     
 
 ########################################################################################
-
-#df_languages, df_genres, df_developers, df_publishers, df_games = create_DataFrames()
-
-
-
-'''
-loading_to_db(df_name=df_games, table_name='games', table_schema=games_schema)
-loading_to_db(df_name=df_publishers, table_name='publishers', table_schema=publishers_schema)
-loading_to_db(df_name=df_developers, table_name='developers', table_schema=developers_schema)
-loading_to_db(df_name=df_languages, table_name='languages', table_schema=languages_schema)
-loading_to_db(df_name=df_genres, table_name='genres', table_schema=genres_schema)
-
-
-df_companies = create_df_companies()
-loading_to_db(df_name=df_companies, table_name='companies', table_schema=companies_schema)
-
-df_meta = create_df_meta()
-loading_to_db(df_name=df_meta, table_name='meta', table_schema=meta_schema)
-
-df_regionals = create_df_regionals()
-loading_to_db(df_name=df_regionals, table_name='regionals', table_schema=regionals_schema)
-
-df_subgenres = create_df_subgenres()
-loading_to_db(df_name=df_subgenres, table_name='subgenres', table_schema=subgenres_schema)
-
-df_stats = create_df_stats()
-loading_to_db(df_name=df_stats, table_name='stats', table_schema=stats_schema)
-
-df_performances = create_df_performances()
-loading_to_db(df_name=df_performances, table_name='performances', table_schema=performances_schema)
-
-df_history = create_df_history()
-
-print(df_history)
-
-start_time=time.time()
-print(f'Fetching data...')
-loading_to_db(df_name=df_history, table_name='history', table_schema=history_schema)
-
-print("Time taken to load data loaded to database .... :   %s seconds ---" % (time.time() - start_time))
-'''
