@@ -33,7 +33,6 @@ print("Creating tables ..................................", end='\r')
 create_tables(db_user, db_password, db_host, db_name)
 
 print("Creating dataframes from json files and cleaning raw data ...............")
-
 df_languages, df_genres, df_developers, df_publishers, df_games = create_DataFrames(data_dir_path)
 df_companies = create_df_companies(data_dir_path)
 df_meta = create_df_meta(data_dir_path)
@@ -44,13 +43,11 @@ df_performances = create_df_performances(data_dir_path)
 df_history = create_df_history(data_dir_path)
 
 print("Loading data to db ..................................", end='\r')
-
 load_to_db(df_games, 'games', games_schema, db_user, db_password, db_host, db_name)
 load_to_db(df_publishers, 'publishers', publishers_schema, db_user, db_password, db_host, db_name)
 load_to_db(df_developers, 'developers', developers_schema, db_user, db_password, db_host, db_name)
 load_to_db(df_genres, 'genres', genres_schema, db_user, db_password, db_host, db_name)
 load_to_db(df_languages, 'languages', languages_schema, db_user, db_password, db_host, db_name)
-
 load_to_db(df_companies, 'companies', companies_schema, db_user, db_password, db_host, db_name)
 load_to_db(df_meta, 'meta', meta_schema, db_user, db_password, db_host, db_name)
 load_to_db(df_regionals, 'regionals', regionals_schema, db_user, db_password, db_host, db_name)
@@ -59,7 +56,6 @@ load_to_db(df_stats, 'stats', stats_schema, db_user, db_password, db_host, db_na
 load_to_db(df_performances, 'performances', performances_schema, db_user, db_password, db_host, db_name)
 load_to_db(df_history, 'history', history_schema, db_user, db_password, db_host, db_name)
 
-    
 print("Time taken  .... :   %s seconds ---" % (time.time() - start_time))
 
 print("-------------------ETL Process completed ----------------------------")

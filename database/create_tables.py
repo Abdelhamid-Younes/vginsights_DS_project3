@@ -1,6 +1,6 @@
 import mysql.connector
 from sqlalchemy.types import *
-from tables import games_table, meta_table, history_table, stats_table, performances_table, companies_table, genres_table, subgenres_table, regionals_table, languages_table, developers_table, publishers_table
+from database.tables import games_table, meta_table, history_table, stats_table, performances_table, companies_table, genres_table, subgenres_table, regionals_table, languages_table, developers_table, publishers_table
 
 def create_tables(user, password, host, db_name):
     """This function serves to create the sql tables of the database

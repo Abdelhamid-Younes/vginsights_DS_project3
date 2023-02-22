@@ -20,7 +20,7 @@ def create_DataFrames(data_dir_path):
     df_games_raw = pd.concat((pd.json_normalize(json.load(open(file))) for file in files_list), ignore_index=True)
     
     # Create_df_languages
-    df_languages = df_games_raw[['steam_id', 'languages']]
+    df_languages = df_games_raw[['steam_id', 'languages']].copy()
     df_languages.rename(columns = {'languages':'language'}, inplace = True)
     df_languages["language"] = df_languages["language"].astype(str).str.split(',')
     df_languages = df_languages.explode(column="language", ignore_index = True)
@@ -28,7 +28,7 @@ def create_DataFrames(data_dir_path):
     df_languages = df_languages.drop_duplicates()
     
     # Create df_genres
-    df_genres = df_games_raw[['steam_id', 'genres']]
+    df_genres = df_games_raw[['steam_id', 'genres']].copy()
     df_genres.columns.values[1] = "genre"
     df_genres["genre"] = df_genres["genre"].astype(str).str.split(',')
     df_genres = df_genres.explode(column='genre', ignore_index = True) 
@@ -45,7 +45,7 @@ def create_DataFrames(data_dir_path):
     df_games['release_date'] = df_games['release_date'].str.split('T').str[0]
     
     # Create df_developers from df_games
-    df_developers = df_games[['steam_id', 'developer']]
+    df_developers = df_games[['steam_id', 'developer']].copy()
     df_developers["developer"] = df_developers["developer"].astype(str).str.split(',')
     df_developers = df_developers.explode(column='developer', ignore_index = True)
     df_developers['developer'] = df_developers['developer'].str.strip()
@@ -56,7 +56,7 @@ def create_DataFrames(data_dir_path):
     df_developers.drop(columns = 'developer2', inplace = True)
     
     # Create df_publishers from df_games
-    df_publishers = df_games[['steam_id', 'publisher', 'publisher_type']]
+    df_publishers = df_games[['steam_id', 'publisher', 'publisher_type']].copy()
     df_publishers["publisher"] = df_publishers["publisher"].astype(str).str.split(',')
     df_publishers = df_publishers.explode(column='publisher', ignore_index = True)
     df_publishers['publisher'] = df_publishers['publisher'].str.strip()
@@ -244,7 +244,7 @@ def create_df_history(data_dir_path):
     df_history.to_csv('{}/history.csv'.format(data_dir_path), index=False)'''
     df_history = pd.read_csv('{}/history.csv'.format(data_dir_path))
     return df_history
-
+    
 def load_to_db(df_name, table_name, table_schema, db_user, db_password, db_host, db_name):
     """This function allows to write records stored in a DataFrame to a SQL database
 
