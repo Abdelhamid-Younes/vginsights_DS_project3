@@ -40,7 +40,7 @@ df_regionals = create_df_regionals(data_dir_path)
 df_subgenres = create_df_subgenres(data_dir_path)
 df_stats = create_df_stats(data_dir_path)
 df_performances = create_df_performances(data_dir_path)
-df_history = create_df_history(data_dir_path)
+#df_history = create_df_history(data_dir_path)
 
 print("Loading data to db ..................................", end='\r')
 load_to_db(df_games, 'games', games_schema, db_user, db_password, db_host, db_name)
@@ -54,7 +54,7 @@ load_to_db(df_regionals, 'regionals', regionals_schema, db_user, db_password, db
 load_to_db(df_subgenres, 'subgenres', subgenres_schema, db_user, db_password, db_host, db_name)
 load_to_db(df_stats, 'stats', stats_schema, db_user, db_password, db_host, db_name)
 load_to_db(df_performances, 'performances', performances_schema, db_user, db_password, db_host, db_name)
-load_to_db(df_history, 'history', history_schema, db_user, db_password, db_host, db_name)
+#load_to_db(df_history, 'history', history_schema, db_user, db_password, db_host, db_name)
 
 print("Time taken  .... :   %s seconds ---" % (time.time() - start_time))
 
