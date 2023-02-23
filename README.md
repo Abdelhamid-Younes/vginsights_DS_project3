@@ -31,6 +31,7 @@ You can run the project locally with these requirements :
 -  mysql  Ver 8.0.32
 -  Some python dpendencies listed in requirement.txt
 
-$ python3 -m venv virtual-env-name
+`$ python3 -m venv virtual-env-name
 $ source virtual-env-name/bin/activate
 $ pip install -r requirements.txt
+`
