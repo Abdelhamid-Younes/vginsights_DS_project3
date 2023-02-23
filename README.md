@@ -1,6 +1,6 @@
 # vginsights_DS_project3
 This project aims to create an ETL pipeline in order to load data (about 1GB) of video games with their statistics and their history performances.
-We segmented and merged csv and json files into multiple tables and then brought everything back together in a clean, organized database using MYSQL and Pandas.
+We segmented and merged csv and json files into multiple dataframes and then brought everything back together in a clean and organized database using MYSQL and Pandas.
 
 The raw data is sourced from : https://analyticsengineeringprojects.s3.eu-west-1.amazonaws.com/VG_Insights.7z
 
@@ -23,4 +23,4 @@ Our first goal was to visualize the database we were creating by generating an E
   - Rebuilding Missing Data.
   - Saving the complete data to csv files.
 
-- Load : After the data was cleaned, and merged, we have created a MYSQL Database, and  data was successfully uploaded into the different tables by using sqlaclhemy.
+- Load : After the data was cleaned, and merged, we have created a MYSQL Database, and  data was successfully uploaded into different tables by using sqlaclhemy.
