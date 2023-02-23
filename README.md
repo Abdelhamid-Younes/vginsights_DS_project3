@@ -31,7 +31,10 @@ You can run the project locally with these requirements :
 -  mysql  Ver 8.0.32
 -  Some python dependencies listed in requirement.txt
 
-```$ python3 -m venv virtual-env-name                                                          
+```
+$ git clone https://github.com/Abdelhamid-Younes/vginsights_DS_project3
+$ python3 -m venv virtual-env-name                                                          
 $ source virtual-env-name/bin/activate                                                    
-$ pip install -r requirements.txt                                     
+$ pip install -r requirements.txt
+$ python3 main.py
 ```
