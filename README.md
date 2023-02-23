@@ -43,8 +43,6 @@ MY_DB = {
 To launch the project you run the following commands:
 ```
 $ git clone https://github.com/Abdelhamid-Younes/vginsights_DS_project3
-$ python3 -m venv virtual-env-name                                                          
-$ source virtual-env-name/bin/activate                                                    
 $ pip install -r requirements.txt
 $ python3 main.py
 ```
