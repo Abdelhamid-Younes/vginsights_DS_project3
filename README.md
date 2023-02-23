@@ -24,3 +24,13 @@ Our first goal was to visualize the database we were creating by generating an E
   - Saving the complete data to csv files.
 
 - Load : After the data was cleaned, and merged, we have created a MYSQL Database, and  data was successfully uploaded into different tables by using sqlaclhemy.
+
+## Launch and requirements:
+You can run the project locally with these requirements :
+-  Python 3.10.6
+-  mysql  Ver 8.0.32
+-  Some python dpendencies listed in requirement.txt
+
+$ python3 -m venv virtual-env-name
+$ source virtual-env-name/bin/activate
+$ pip install -r requirements.txt
