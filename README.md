@@ -35,8 +35,8 @@ You must also update the file *`db_config.py`* with the following format. This i
 ```
 MY_DB = {
     "host": "*.*.*.*",
-    "user": "*******",
-    "password": "*******",
+    "user": "*******", //The user of your MySQL instance
+    "password": "*******", // The password of your MySQL instance
     "db_name": "*********",
 }
 ```
