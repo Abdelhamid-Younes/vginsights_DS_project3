@@ -14,7 +14,7 @@ Our first goal was to visualize the database we were creating by generating an E
 - Extract :
    - Downloading a zip file containing the data of the project and unziping it in a defined folder (script : download_extract.py).
   
-- Transform : In this phase we built a cleaned dataframes in order to export it to different tables. It involves the following steps: 
+- Transform : In this stage we built some cleaned dataframes in order to export them to different tables. It involves the following steps: 
   - Creating dataframes with raw data from json files.
   - Dropping unnecessary columns in dataframes.
   - Adding and renaming other columns to a more recognizable set of labels.
@@ -26,11 +26,21 @@ Our first goal was to visualize the database we were creating by generating an E
 - Load : After the data was cleaned, and merged, we have created a MYSQL Database, and  data was successfully uploaded into different tables by using sqlaclhemy.
 
 ## Launch and requirements:
-You can run the project locally with these requirements :
+Before running the project locally you need to install these requirements :
 -  Python 3.10.6
 -  mysql  Ver 8.0.32
 -  Some python dependencies listed in requirement.txt
 
+You must also update the file `*db_config.py*` with the following format. This is what the program reads to know what database to connect to and with what credentials.
+```
+MY_DB = {
+    "host": "*.*.*.*",
+    "user": "*******",
+    "password": "*******",
+    "db_name": "*********",
+}
+```
+To launch the project you run the following commands:
 ```
 $ git clone https://github.com/Abdelhamid-Younes/vginsights_DS_project3
 $ python3 -m venv virtual-env-name                                                          
@@ -38,3 +48,4 @@ $ source virtual-env-name/bin/activate
 $ pip install -r requirements.txt
 $ python3 main.py
 ```
+
