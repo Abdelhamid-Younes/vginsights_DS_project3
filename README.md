@@ -1,5 +1,5 @@
 # vginsights_DS_project3
-This project aims to create an ETL pipeline in order to load data (about 1GB) of video games with their statistics and their history performances.
+This project aims to create an ETL pipeline in order to load data of video games (about 19000 games) with their statistics and their history performances.
 We segmented and merged csv and json files into multiple dataframes and then brought everything back together in a clean and organized database using MYSQL and Pandas.
 
 The raw data is sourced from : https://analyticsengineeringprojects.s3.eu-west-1.amazonaws.com/VG_Insights.7z
@@ -31,7 +31,7 @@ Before running the project locally you need to install these requirements :
 -  mysql  Ver 8.0.32
 -  Some python dependencies listed in requirement.txt
 
-You must also update the file `*db_config.py*` with the following format. This is what the program reads to know what database to connect to and with what credentials.
+You must also update the file *`db_config.py`* with the following format. This is what the program reads to know what database to connect to and with what credentials.
 ```
 MY_DB = {
     "host": "*.*.*.*",
@@ -49,3 +49,5 @@ $ pip install -r requirements.txt
 $ python3 main.py
 ```
 
+## Coming soon:
+In the second part of the project we will create an Analytics dashboard to take insights from database and make some data visualizations ....
