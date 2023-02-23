@@ -12,10 +12,15 @@ Our first goal was to visualize the database we were creating by generating an E
 ## Workflow :
 
 - Extract :
-   Download a zip file containing the data of the project and unzip it in a defined folder (download_extract.py script).
+   - Downloading a zip file containing the data of the project and unziping it in a defined folder (script : download_extract.py).
   
-- Transform :
-  - Create dataframes with raw data from json files
-  - 
+- Transform : In this phase we built a cleaned dataframes in order to export it to different tables. It involves the following steps: 
+  - Creating dataframes with raw data from json files.
+  - Dropping unnecessary columns in dataframes.
+  - Adding and renaming other columns to a more recognizable set of labels.
+  - Tidying up Fields to get a better understanding of the data.
+  - Using .str() methods to clean columns.
+  - Rebuilding Missing Data.
+  - Saving the complete data to csv files.
 
-- Load :
+- Load : After the data was cleaned, and merged, we have created a MYSQL Database, and  data was successfully uploaded into the different tables by using sqlaclhemy.
