@@ -49,61 +49,54 @@ def create_DataFrames(data_dir_path):
     df_developers["developer"] = df_developers["developer"].astype(str).str.split(',')
     df_developers = df_developers.explode(column='developer', ignore_index = True)
     df_developers['developer'] = df_developers['developer'].str.strip()
-    df_developers = df_developers.drop_duplicates()
-    df_developers['developer2'] = df_developers['developer'].str.strip()
-    df_developers['developer2'] = df_developers['developer2'].str.lower()
+    df_developers['developer'] = df_developers['developer'].apply(unidecode)
+    df_developers['developer2'] = df_developers['developer'].str.upper()
     df_developers.drop_duplicates(subset=['steam_id','developer2'], inplace=True, keep="first")
     df_developers.drop(columns = 'developer2', inplace = True)
     
     # Create df_publishers from df_games
     df_publishers = df_games[['steam_id', 'publisher', 'publisher_type']].copy()
     df_publishers["publisher"] = df_publishers["publisher"].astype(str).str.split(',')
+    df_publishers["publisher_type"] = df_publishers["publisher_type"].astype(str).str.split(',')
     df_publishers = df_publishers.explode(column='publisher', ignore_index = True)
     df_publishers['publisher'] = df_publishers['publisher'].str.strip()
-    df_publishers["publisher_type"] = df_publishers["publisher_type"].astype(str).str.split(',')
     df_publishers = df_publishers.explode(column='publisher_type', ignore_index = True)
     df_publishers['publisher_type'] = df_publishers['publisher_type'].str.strip()
-    df_publishers['publisher2'] = df_publishers['publisher'].str.strip()
-    df_publishers['publisher2'] = df_publishers['publisher2'].str.lower()   
-    df_publishers = df_publishers.drop_duplicates(subset=['steam_id','publisher'])
+    df_publishers['publisher'] = df_publishers['publisher'].apply(unidecode)
+    df_publishers['publisher2'] = df_publishers['publisher'].str.upper()
+    df_publishers = df_publishers.drop_duplicates(subset=['steam_id','publisher2'])
     df_publishers.drop(columns = 'publisher2', inplace = True)
-    
+   
     df_games.drop(["developer", "publisher", "publisher_type"], axis=1, inplace=True)
     
-    
-    return df_languages, df_genres, df_developers, df_publishers, df_games
+    # Create df_companies
+    df_dev = df_developers.copy()
+    df_pub = df_publishers.copy()
+    df_dev.rename(columns = {'developer':'company_name'}, inplace = True)
+    df_pub.rename(columns = {'publisher':'company_name'}, inplace = True)
+    df_companies = pd.concat([df_dev,df_pub],ignore_index = True)
+    df_companies.drop(["publisher_type", "steam_id"], axis=1, inplace=True)
 
-def create_df_companies(data_dir_path):
-    """This function serves to create a dataframe from companies json files 
-
-    Args:
-        data_dir_path (str): The path directory where the raw data is stored
-
-    Returns:
-        Dataframe: Returns a dataframe with a cleaned data ready to load to db.
-    """
     files_list = glob.glob('{}/Games5/*companies_url.json'.format(data_dir_path))
-    df_companies = pd.DataFrame()
+    df_companies_raw = pd.DataFrame()
     for file in files_list:
         data = json.load(open(file))
-        developers_df = pd.DataFrame(data['developers'])
-        publishers_df = pd.DataFrame(data['publishers'])
-        df = pd.concat([developers_df, publishers_df], axis=0)
-        df_companies = pd.concat([df_companies, df],ignore_index = True)
-        
-    df_companies.drop(["isPublisher", "isDeveloper"], axis=1, inplace=True)
-    df_companies.rename(columns = {'name':'company_name', 'id':'company_id'}, inplace = True)
-    df_companies['company_name'] = df_companies['company_name'].replace('-', None)
-    df_companies = df_companies.dropna(subset=['company_name'])
-    df_companies['company_name'] = df_companies['company_name'].str.strip()
-    df_companies = df_companies.drop_duplicates(subset=['company_name'])
-    df_companies['slug'] = df_companies['slug'].replace('-', None)
-    df_companies['company_name'] = df_companies['company_name'].apply(unidecode)
+        df1 = pd.DataFrame(data['developers'])
+        df2 = pd.DataFrame(data['publishers'])
+        df = pd.concat([df1, df2], axis=0)
+        df_companies_raw = pd.concat([df_companies_raw,df],ignore_index = True)
+    df_comp = df_companies_raw.copy()
+    
+    df_comp.drop(["isPublisher", "isDeveloper", "id"], axis=1, inplace=True)
+    df_comp = df_comp.drop_duplicates(subset=['name'])
+    df_comp['slug'] = df_comp['slug'].replace('-', np.NaN)
+    df_comp.rename(columns = {'name':'company_name'}, inplace = True)
+    df_companies = pd.merge(df_companies, df_comp, how ='left', on =['company_name'])
     df_companies['company_name2'] = df_companies['company_name'].str.upper()
     df_companies = df_companies.drop_duplicates(subset=['company_name2'])
-    df_companies.drop([ "company_name2"], axis=1, inplace=True)
+    df_companies.drop(["company_name2"], axis=1, inplace=True)
     
-    return df_companies
+    return df_languages, df_genres, df_developers, df_publishers, df_games, df_companies
     
 def create_df_meta(data_dir_path):
     """This function serves to create a dataframe from meta json files 

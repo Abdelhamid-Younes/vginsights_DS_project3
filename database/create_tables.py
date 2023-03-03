@@ -18,7 +18,42 @@ def create_tables(user, password, host, db_name):
         # Creating a cursor object using the cursor() method
         cursor = conn.cursor()
 
+################################################# games table ##################################################
+        try:
+            cursor.execute("DROP TABLE IF EXISTS games")
+            cursor.execute(games_table)
+            print("games table created successfully ")
 
+        except mysql.connector.Error as err:
+                print(f"Failed to create games table: {err}")
+                
+################################################# companies table #############################################
+        try:
+            cursor.execute("DROP TABLE IF EXISTS companies")
+            cursor.execute(companies_table)
+            print("companies table created successfully ")
+
+        except mysql.connector.Error as err:
+                print(f"Failed to create companies table: {err}")
+                             
+################################################# developers table ##################################################
+        try:
+            cursor.execute("DROP TABLE IF EXISTS developers")
+            cursor.execute(developers_table)
+            print("developers table created successfully ")
+
+        except mysql.connector.Error as err:
+                print(f"Failed to create developers table: {err}")
+                
+################################################# publishers table ##################################################
+        try:
+            cursor.execute("DROP TABLE IF EXISTS publishers")
+            cursor.execute(publishers_table)
+            print("publishers table created successfully ")
+
+        except mysql.connector.Error as err:
+                print(f"Failed to create publishers table: {err}")           
+                     
 ################################################# meta table ##################################################
 
         try:
@@ -61,44 +96,9 @@ def create_tables(user, password, host, db_name):
                 print(f"Failed to create performances table: {err}")
 
 
-################################################# companies table #############################################
-        try:
-            cursor.execute("DROP TABLE IF EXISTS companies")
-            cursor.execute(companies_table)
-            print("companies table created successfully ")
 
-        except mysql.connector.Error as err:
-                print(f"Failed to create companies table: {err}")
-
-################################################# games table ##################################################
-        try:
-            cursor.execute("DROP TABLE IF EXISTS games")
-            cursor.execute(games_table)
-            print("games table created successfully ")
-
-        except mysql.connector.Error as err:
-                print(f"Failed to create games table: {err}")
-                
-################################################# developers table ##################################################
-        try:
-            cursor.execute("DROP TABLE IF EXISTS developers")
-            cursor.execute(developers_table)
-            print("developers table created successfully ")
-
-        except mysql.connector.Error as err:
-                print(f"Failed to create developers table: {err}")
-                
-################################################# publishers table ##################################################
-        try:
-            cursor.execute("DROP TABLE IF EXISTS publishers")
-            cursor.execute(publishers_table)
-            print("publishers table created successfully ")
-
-        except mysql.connector.Error as err:
-                print(f"Failed to create publishers table: {err}")
 
 ################################################# genres table ################################################
-
         try:
             cursor.execute("DROP TABLE IF EXISTS genres")
             cursor.execute(genres_table)
@@ -108,7 +108,6 @@ def create_tables(user, password, host, db_name):
                 print(f"Failed to create genres table: {err}")
 
 ################################################# subgenres table #############################################
-
         try:
             cursor.execute("DROP TABLE IF EXISTS subgenres")
             cursor.execute(subgenres_table)
@@ -118,7 +117,6 @@ def create_tables(user, password, host, db_name):
                 print(f"Failed to create subgenres table: {err}")
 
 ################################################# regionals table #############################################
-
         try:
             cursor.execute("DROP TABLE IF EXISTS regionals")
             cursor.execute(regionals_table)
@@ -128,7 +126,6 @@ def create_tables(user, password, host, db_name):
                 print(f"Failed to create regionals table: {err}")
 
 ################################################# languages table #############################################
-
         try:
             cursor.execute("DROP TABLE IF EXISTS languages")
             cursor.execute(languages_table)

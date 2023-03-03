@@ -56,7 +56,7 @@ stats_table = """CREATE TABLE stats
 performances_table = """CREATE TABLE performances
                                     (
                                      steam_id INTEGER NOT NULL AUTO_INCREMENT,
-                                     perf_name VARCHAR(100),
+                                     perf_name VARCHAR(100) NOT NULL,
                                      perf_rank INTEGER,
                                      prct FLOAT,
                                      nb_games INTEGER,
@@ -66,14 +66,13 @@ performances_table = """CREATE TABLE performances
 companies_table = """CREATE TABLE companies
                                     (
                                      company_name VARCHAR(255) NOT NULL PRIMARY KEY,
-                                     company_id INTEGER,
                                      slug VARCHAR(255)
                                      );"""
 
 genres_table = """CREATE TABLE genres
                                     (
                                      steam_id INTEGER NOT NULL AUTO_INCREMENT,
-                                     genre VARCHAR(50),
+                                     genre VARCHAR(50)NOT NULL,
                                      PRIMARY KEY (steam_id, genre)
                                      );"""
 
@@ -90,7 +89,7 @@ subgenres_table = """CREATE TABLE subgenres
 regionals_table = """CREATE TABLE regionals
                                     (
                                      steam_id INTEGER NOT NULL AUTO_INCREMENT,
-                                     region VARCHAR(50),
+                                     region VARCHAR(50) NOT NULL,
                                      playersPrct FLOAT,
                                      PRIMARY KEY (steam_id, region)
                                      );"""
@@ -98,23 +97,25 @@ regionals_table = """CREATE TABLE regionals
 languages_table = """CREATE TABLE languages
                                     (
                                      steam_id INTEGER NOT NULL AUTO_INCREMENT,
-                                     language VARCHAR(50),
+                                     language VARCHAR(50) NOT NULL,
                                      PRIMARY KEY (steam_id, language)
                                      );"""
                                      
 developers_table = """CREATE TABLE developers
                                     (
                                      steam_id INTEGER NOT NULL AUTO_INCREMENT,
-                                     developer VARCHAR(100) NOT NULL,
-                                     PRIMARY KEY (steam_id, developer)
+                                     developer VARCHAR(255) NOT NULL,
+                                     PRIMARY KEY (steam_id, developer),
+                                     FOREIGN KEY (developer) REFERENCES companies(company_name)
                                      );"""              
 
 publishers_table = """CREATE TABLE publishers
                                     (
                                      steam_id INTEGER NOT NULL AUTO_INCREMENT,
-                                     publisher VARCHAR(100) NOT NULL,
+                                     publisher VARCHAR(255) NOT NULL,
                                      publisher_type VARCHAR(20),
-                                     PRIMARY KEY (steam_id, publisher)
+                                     PRIMARY KEY (steam_id, publisher),
+                                     FOREIGN KEY (publisher) REFERENCES companies(company_name)
                                      );""" 
 
 ################################################# Dataframes schema #################################################
@@ -157,7 +158,6 @@ publishers_schema = {
 
 companies_schema = {
                        "company_name": String(255),
-                       "company_id": Integer, 
                        "slug": String(100)
 }
 
