@@ -1,0 +1,2 @@
+
+This folder containt generated on the fly svg board images. Don't delete it !

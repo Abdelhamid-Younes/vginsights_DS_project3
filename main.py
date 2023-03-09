@@ -6,6 +6,8 @@ from database.create_db import create_db
 from database.create_tables import create_tables
 from transform_load.load_data import create_df_meta, create_DataFrames, create_df_history, create_df_performances, create_df_regionals, create_df_stats, create_df_subgenres, load_to_db
 from database.tables import games_schema, genres_schema, languages_schema, companies_schema, subgenres_schema, meta_schema, developers_schema, publishers_schema, regionals_schema, stats_schema, history_schema, performances_schema
+from insights.create_views import create_views, stat_views
+from insights.create_insights import create_insights, sql_insights
 
 db_user=cfg.MY_DB["user"]   
 db_password=cfg.MY_DB["password"] 
@@ -17,7 +19,7 @@ save_as=cfg.paths['save_as']
 data_dir_path=cfg.paths['data_dir_path']
 
 start_time=time.time()
-
+"""
 print("------------------ Start ETL process --------------", end='\r')
 
 print("Loading compressed file ..........................", end='\r')
@@ -59,3 +61,7 @@ load_to_db(df_performances, 'performances', performances_schema, db_user, db_pas
 print("Time taken  .... :   %s seconds ---" % (time.time() - start_time))
 
 print("-------------------ETL Process completed ----------------------------")
+"""
+print ("--------------------- Generating insights --------------------------")
+#create_views(stat_views, db_host, db_name, db_user, db_password)
+create_insights(sql_insights, db_host, db_name, db_user, db_password)

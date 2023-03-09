@@ -14,7 +14,7 @@ def create_db(user, password, host, db_name):
     conn = mysql.connector.connect(user=user, password=password, host=host)
     # Creating a cursor object using the cursor() method
     cursor = conn.cursor()
-    
+
     try:
         # Droping database if already exists.
         cursor.execute(f"DROP DATABASE IF EXISTS {db_name}")
