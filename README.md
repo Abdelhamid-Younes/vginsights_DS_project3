@@ -47,5 +47,12 @@ $ pip install -r requirements.txt
 $ python3 main.py
 ```
 
-## Coming soon:
-In the second part of the project we will create an Analytics dashboard to take insights from database and make some data visualizations ....
+## Analytics dashboard:
+In the second part of the project we have created an Analytics dashboard using streamlit to take insights from database and make some data visualizations.
+So before running the streamlit app, don't forget to update the file secrets.toml in the folder./streamlit, with your own MYSQL server credentials that allows the connection to the database.
+Once it's done, run this these commands to launch the streamlit appilication :
+```
+$ cd ./streamlit/
+$ streamlit run home.py
+```
+And the app should then be available at localhost:8501.
