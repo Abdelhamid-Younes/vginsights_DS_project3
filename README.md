@@ -55,4 +55,4 @@ Once it's done, run this these commands to launch the streamlit appilication :
 $ cd ./streamlit/
 $ streamlit run home.py
 ```
-And the app should then be available at [localhost:8501](https://localhost:8501)!
+And the app should then be available at [localhost:8501](https://localhost:8501){:target="_blank"}!
