@@ -63,5 +63,5 @@ print("Time taken  .... :   %s seconds ---" % (time.time() - start_time))
 print("-------------------ETL Process completed ----------------------------")
 """
 print ("--------------------- Generating insights --------------------------")
-#create_views(stat_views, db_host, db_name, db_user, db_password)
-create_insights(sql_insights, db_host, db_name, db_user, db_password)
+create_views(stat_views, db_host, db_name, db_user, db_password)
+#create_insights(sql_insights, db_host, db_name, db_user, db_password)

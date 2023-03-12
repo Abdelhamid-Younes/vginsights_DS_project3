@@ -47,7 +47,7 @@ def create_views(stat_views, host, db_name, user, password):
 
 stat_views = {
     "developer_stats": """
-                        SELECT 
+                        SELECT DISTINCT
                             d.developer AS 'Developer name',
                             COUNT(DISTINCT g.steam_id) AS 'Developed Games',
                             MIN(g.release_date) AS 'First Game Developed',
@@ -60,7 +60,7 @@ stat_views = {
                                                     """,
                             
     "publisher_stats": """
-                        SELECT 
+                        SELECT DISTINCT
                             publishers.publisher AS `Publisher name`,
                             COUNT(DISTINCT games.steam_id) AS `Published Games`,
                             MIN(games.release_date) AS `First Game published`,
@@ -100,7 +100,7 @@ stat_views = {
                                                     """,
                             
     "game_stats": """
-                        SELECT g.steam_id, s.max_players_24h, s.players_latest, g.reviews_positive, g.revenue_vgi, g.units_sold_vgi, s.avg_playtime, s.med_playtime
+                        SELECT g.steam_id, g.game_name, s.max_players_24h, s.players_latest, g.reviews_positive, g.revenue_vgi, g.units_sold_vgi, s.avg_playtime, s.med_playtime
                         FROM stats s
                         JOIN games g ON s.steam_id = g.steam_id;
                                             """,

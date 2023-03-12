@@ -69,6 +69,4 @@ sql_insights = {
                         GROUP BY g.game_name
                         ORDER BY total_reviews DESC LIMIT 10;
                             """
-                            
-
 }
