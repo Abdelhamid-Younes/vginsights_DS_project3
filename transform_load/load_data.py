@@ -17,7 +17,14 @@ def create_DataFrames(data_dir_path):
         Dataframe: Returns many dataframes with a cleaned data ready to load to db.
     """
     files_list = glob.glob('{}/Games5/*game_url.json'.format(data_dir_path))
-    df_games_raw = pd.concat((pd.json_normalize(json.load(open(file))) for file in files_list), ignore_index=True)
+    
+    #df_games_raw = pd.concat((pd.json_normalize(json.load(open(file))) for file in files_list), ignore_index=True)
+    
+    df_games_raw = pd.DataFrame()
+    for i, file in enumerate(files_list):
+        print(f"Processing games and companies files... {round(((i+1)/len(files_list))*100, 2)}% complete", end='\r')
+        data = pd.json_normalize(json.load(open(file)))
+        df_games_raw = pd.concat([df_games_raw,data],axis=0)
     
     # Create_df_languages
     df_languages = df_games_raw[['steam_id', 'languages']].copy()
@@ -108,7 +115,14 @@ def create_df_meta(data_dir_path):
         Dataframe: Returns a dataframe with a cleaned data ready to load to db.
     """
     files_list = glob.glob('{}/Games5/*meta_url.json'.format(data_dir_path))
-    df_meta = pd.concat((pd.json_normalize(json.load(open(file))) for file in files_list), ignore_index=True)
+    #df_meta = pd.concat((pd.json_normalize(json.load(open(file))) for file in files_list), ignore_index=True)
+    
+    df_meta = pd.DataFrame()
+    for i, file in enumerate(files_list):
+        print(f"Processing metadata files... {round(((i+1)/len(files_list))*100, 2)}% complete", end='\r')
+        data = pd.json_normalize(json.load(open(file)))
+        df_meta = pd.concat([df_meta,data],axis=0)
+    
     df_meta.drop(["meta.releaseDateAlt", "name", "game_id"], axis=1, inplace=True)
     df_meta.rename(columns = {'meta.website':'website',
                               'meta.comingSoon':'comingSoon',
@@ -130,7 +144,9 @@ def create_df_regionals(data_dir_path):
     """
     files_list = glob.glob('{}/Games5/*regional_url.json'.format(data_dir_path))
     df_regionals = pd.DataFrame()
-    for file in files_list:
+    for i, file in enumerate(files_list):
+        print(f"Processing regionals files...  {round(((i+1)/len(files_list))*100, 2)}% complete", end='\r')
+    #    print(f"Processing regionals files.. {files_list.index(file)+1}/{len(files_list)}", end='\r')
         title = os.path.basename(file)
         steam_id = title.split('_')[0]
         data = json.load(open(file))
@@ -154,7 +170,8 @@ def create_df_subgenres(data_dir_path):
     """
     files_list = glob.glob('{}/Games5/*subgenre_url.json'.format(data_dir_path))
     df_subgenres = pd.DataFrame()
-    for file in files_list:
+    for i, file in enumerate(files_list):
+        print(f"Processing subgenres files... {round(((i+1)/len(files_list))*100, 2)}% complete", end='\r')
         title = os.path.basename(file)
         steam_id = title.split('_')[0]
         data = pd.json_normalize(json.load(open(file)))
@@ -174,7 +191,8 @@ def create_df_stats(data_dir_path):
     """
     files_list = glob.glob('{}/Games5/*stats_url.json'.format(data_dir_path))
     df_stats = pd.DataFrame()
-    for file in files_list:
+    for i, file in enumerate(files_list):
+        print(f"Processing stats files... {round(((i+1)/len(files_list))*100, 2)}% complete", end='\r')
         title = os.path.basename(file)
         steam_id = title.split('_')[0]
         data = pd.json_normalize(json.load(open(file)))
@@ -183,7 +201,8 @@ def create_df_stats(data_dir_path):
         
     files_list = glob.glob('./data/Games5/*price_url.json')
     df_price = pd.DataFrame()
-    for file in files_list:
+    for i, file in enumerate(files_list):
+        print(f"Processing price files... {round(((i+1)/len(files_list))*100, 2)}% complete", end='\r')        
         title = os.path.basename(file)
         steam_id = title.split('_')[0]
         data = pd.json_normalize(json.load(open(file)))
@@ -206,7 +225,8 @@ def create_df_performances(data_dir_path):
     """
     files_list = glob.glob('{}/Games5/*performance_url.json'.format(data_dir_path))
     df_performances = pd.DataFrame()
-    for file in files_list:
+    for i, file in enumerate(files_list):
+        print(f"Processing performances files... {round(((i+1)/len(files_list))*100, 2)}% complete", end='\r')
         title = os.path.basename(file)
         steam_id = title.split('_')[0]
         data = pd.json_normalize(json.load(open(file)), record_path = ['ranks'], meta = ['games'])
@@ -227,7 +247,8 @@ def create_df_history(data_dir_path):
     """
     '''files_list = glob.glob('{}/Games5/*history_url.json'.format(data_dir_path))
     df_history = pd.DataFrame()
-    for file in files_list:
+    for i, file in enumerate(files_list):
+        print(f"Processing history files... {round(((i+1)/len(files_list))*100, 2)}% complete", end='\r')
         title = os.path.basename(file)
         steam_id = title.split('_')[0]
         data = pd.json_normalize(json.load(open(file)))
@@ -235,7 +256,9 @@ def create_df_history(data_dir_path):
         data.insert(0, 'steam_id', steam_id)
         df_history = pd.concat([df_history,data],axis=0)
     df_history.to_csv('{}/history.csv'.format(data_dir_path), index=False)'''
-    df_history = pd.read_csv('{}/history.csv'.format(data_dir_path))
+    #df_history = pd.read_csv('{}/history.csv'.format(data_dir_path))
+    df_history = pd.read_csv('./database//history.csv')
+
     return df_history
     
 def load_to_db(df_name, table_name, table_schema, db_user, db_password, db_host, db_name):
@@ -251,11 +274,11 @@ def load_to_db(df_name, table_name, table_schema, db_user, db_password, db_host,
         db_name (str): the name of the database, defined in config file.
     """
     
-    print(f' Loading data to {table_name} table ......')
-    
+    print(f' Writing data to {table_name} table ......', end='\r')
+       
     mysql_engine = create_engine(f'mysql://{db_user}:{db_password}@{db_host}/{db_name}')
+    df_name.to_sql(table_name, mysql_engine, if_exists='replace', dtype = table_schema, index=False, chunksize=50000)
     
-    df_name.to_sql(table_name, mysql_engine, if_exists='append', dtype = table_schema, index=False, chunksize=50000)
-    
+    print(f"Data written successfully to {table_name} table ({len(df_name.index)} rows inserted) !")
 
 ########################################################################################

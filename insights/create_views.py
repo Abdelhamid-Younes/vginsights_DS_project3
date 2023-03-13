@@ -4,7 +4,6 @@ from mysql.connector import Error
 
 def create_views(stat_views, host, db_name, user, password):
     """This function serves to Create views needed for data visualization
-
     Args:
         stat_views (dict): Contains the schema of each view.
         user (str): Database user defined in config file.

@@ -19,20 +19,21 @@ save_as=cfg.paths['save_as']
 data_dir_path=cfg.paths['data_dir_path']
 
 start_time=time.time()
-"""
-print("------------------ Start ETL process --------------", end='\r')
 
-print("Loading compressed file ..........................", end='\r')
+print("---------------------------------------- Start ETL process -----------------------------------------", end='\r')
+
+print("Loading compressed file ........................", end='\r')
 download_data( data_dir_path, url, save_as)
 
 print("Extracting data ..................................", end='\r')
 extract_data(save_as, data_dir_path)
 
+
 print("Creating database ................................", end='\r')
-create_db(db_user, db_password, db_host, db_name)
+#create_db(db_user, db_password, db_host, db_name)
 
 print("Creating tables ..................................", end='\r')
-create_tables(db_user, db_password, db_host, db_name)
+#create_tables(db_user, db_password, db_host, db_name)
 
 print("Creating dataframes from json files and cleaning raw data ...............", end='\r')
 
@@ -42,13 +43,13 @@ df_regionals = create_df_regionals(data_dir_path)
 df_subgenres = create_df_subgenres(data_dir_path)
 df_stats = create_df_stats(data_dir_path)
 df_performances = create_df_performances(data_dir_path)
-#df_history = create_df_history(data_dir_path)
+df_history = create_df_history(data_dir_path)
 
 print("Loading data to db ..................................", end='\r')
 load_to_db(df_games, 'games', games_schema, db_user, db_password, db_host, db_name)
-load_to_db(df_companies, 'companies', companies_schema, db_user, db_password, db_host, db_name)
 load_to_db(df_publishers, 'publishers', publishers_schema, db_user, db_password, db_host, db_name)
 load_to_db(df_developers, 'developers', developers_schema, db_user, db_password, db_host, db_name)
+load_to_db(df_companies, 'companies', companies_schema, db_user, db_password, db_host, db_name)
 load_to_db(df_genres, 'genres', genres_schema, db_user, db_password, db_host, db_name)
 load_to_db(df_languages, 'languages', languages_schema, db_user, db_password, db_host, db_name)
 load_to_db(df_meta, 'meta', meta_schema, db_user, db_password, db_host, db_name)
@@ -59,9 +60,8 @@ load_to_db(df_performances, 'performances', performances_schema, db_user, db_pas
 #load_to_db(df_history, 'history', history_schema, db_user, db_password, db_host, db_name)
 
 print("Time taken  .... :   %s seconds ---" % (time.time() - start_time))
+print("-------------------------------------ETL Process completed -----------------------------------------")
 
-print("-------------------ETL Process completed ----------------------------")
-"""
-print ("--------------------- Generating insights --------------------------")
+print ("------------------------------------ Generating insights -------------------------------------------")
 create_views(stat_views, db_host, db_name, db_user, db_password)
-#create_insights(sql_insights, db_host, db_name, db_user, db_password)
+create_insights(sql_insights, db_host, db_name, db_user, db_password)
