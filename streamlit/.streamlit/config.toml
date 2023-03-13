@@ -1,6 +1,0 @@
-[theme]
-base = "beige"
-secondaryBackgroundColor = "#beige"
-
-[deprecation]
-showPyplotGlobalUse = false

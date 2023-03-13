@@ -22,20 +22,20 @@ start_time=time.time()
 
 print("---------------------------------------- Start ETL process -----------------------------------------", end='\r')
 
-print("Loading compressed file ........................", end='\r')
+print("Downloading compressed file .........................                                                   ", end='\r')
 download_data( data_dir_path, url, save_as)
 
-print("Extracting data ..................................", end='\r')
+print("Extracting data .................................                                                   ", end='\r')
 extract_data(save_as, data_dir_path)
+print("Time taken  .... :   %s seconds ---" % (time.time() - start_time))
 
+print("Creating database ................................                                                  ", end='\r')
+create_db(db_user, db_password, db_host, db_name)
 
-print("Creating database ................................", end='\r')
-#create_db(db_user, db_password, db_host, db_name)
+print("Creating tables ..................................                                                  ", end='\r')
+create_tables(db_user, db_password, db_host, db_name)
 
-print("Creating tables ..................................", end='\r')
-#create_tables(db_user, db_password, db_host, db_name)
-
-print("Creating dataframes from json files and cleaning raw data ...............", end='\r')
+print("Creating dataframes from json files and cleaning raw data ......                                    ", end='\r')
 
 df_languages, df_genres, df_developers, df_publishers, df_games, df_companies = create_DataFrames(data_dir_path)
 df_meta = create_df_meta(data_dir_path)
@@ -57,11 +57,18 @@ load_to_db(df_regionals, 'regionals', regionals_schema, db_user, db_password, db
 load_to_db(df_subgenres, 'subgenres', subgenres_schema, db_user, db_password, db_host, db_name)
 load_to_db(df_stats, 'stats', stats_schema, db_user, db_password, db_host, db_name)
 load_to_db(df_performances, 'performances', performances_schema, db_user, db_password, db_host, db_name)
-#load_to_db(df_history, 'history', history_schema, db_user, db_password, db_host, db_name)
+load_to_db(df_history, 'history', history_schema, db_user, db_password, db_host, db_name)
 
 print("Time taken  .... :   %s seconds ---" % (time.time() - start_time))
-print("-------------------------------------ETL Process completed -----------------------------------------")
 
-print ("------------------------------------ Generating insights -------------------------------------------")
+print("-------------------------------------ETL Process completed -----------------------------------------", end="\n")
+
+print ("------------------------------------ Generating insights ------------------------------------------")
+
 create_views(stat_views, db_host, db_name, db_user, db_password)
 create_insights(sql_insights, db_host, db_name, db_user, db_password)
+
+print("The streamlit application is now ready to run ")
+print ("Run these commands to launch it : ")
+print ("$ cd ./streamlit/")
+print ("$ streamlit run home.py")
