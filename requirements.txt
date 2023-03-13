@@ -1,0 +1,7 @@
+py7zr
+mysql-connector-python
+sqlalchemy
+pandas
+Unidecode
+#python3-dev default-libmysqlclient-dev build-essential
+mysqlclient
