@@ -58,7 +58,7 @@ if choice == 'Gross revenue':
     plt.bar(df.game_name, df.revenue_vgi, color='green')
     plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%dm'))
     st.pyplot(fig)
-    st.dataframe(df)
+    #st.dataframe(df)
   
 elif choice == 'New reviews':
     
@@ -70,7 +70,7 @@ elif choice == 'New reviews':
     ax.set_xlabel("Games")
     ax.set_title("Top Games Last Week by New Reviews")
     st.pyplot(fig)
-    st.dataframe(df)
+    #st.dataframe(df)
 
 elif choice == 'New followers':
     
@@ -81,4 +81,4 @@ elif choice == 'New followers':
     ax.set_xlabel("Games")
     ax.set_title("Top Games Last Week by Niew Followers")
     st.pyplot(fig)
-    st.dataframe(df)
+    #st.dataframe(df)

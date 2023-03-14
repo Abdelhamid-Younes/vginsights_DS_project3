@@ -14,6 +14,7 @@ st.set_page_config(
     page_title="VGI Project",
     page_icon="📰",
 )
+
 def max_width():
     max_width_str = "max-width:1000px;"
     st.markdown(
@@ -29,14 +30,12 @@ def max_width():
     
 max_width()
 
-
-
 df_publishers = pd.read_sql("SELECT * FROM publisher_stats",conn)
-df_publishers = df_publishers.sort_values('Total Lifetime Revenue', ascending=False)
-publisher_name = df_publishers['Publisher name'].drop_duplicates()
+df_publishers = df_publishers.sort_values('total_lifetime_revenue', ascending=False)
+publisher_name = df_publishers['publisher_name'].drop_duplicates()
 
 publisher_selected = st.sidebar.selectbox('Select a publisher:', publisher_name)
-publisher_selected_df = df_publishers.loc[df_publishers["Publisher name"] == publisher_selected]
+publisher_selected_df = df_publishers.loc[df_publishers["publisher_name"] == publisher_selected]
 
 df_genre_selected = pd.read_sql(f'''SELECT genres.genre, COUNT(*) AS count_genre
                            FROM games
@@ -61,20 +60,20 @@ columns = st.columns((1, 1))
 
 with columns[0]:
     st.markdown(f"#### Overview of {publisher_selected}")
-    st.write("**Name :** " , publisher_selected_df['Publisher name'].iloc[0])
-    st.write("**Published games :** " , str(publisher_selected_df['Published Games'].iloc[0]))
-    st.write("**First Game published :** " , str(publisher_selected_df['First Game published'].iloc[0]))
-    st.write("**Last Game published :** " , str(publisher_selected_df['Last Game published'].iloc[0]))
-    publisher_selected_df['Total Lifetime Revenue'] = publisher_selected_df.apply(lambda row: '$' + str(round(row['Total Lifetime Revenue'] / 1000000,2)) + 'm', axis=1)
-    st.write("**Total Lifetime Revenue :** " , publisher_selected_df['Total Lifetime Revenue'].iloc[0])
-    publisher_selected_df['Average Revenue per Game'] = publisher_selected_df.apply(lambda row: '$' + str(round(row['Average Revenue per Game'] / 1000000,2)) + 'm', axis=1)
-    st.write("**Average Revenue per Game :** " , publisher_selected_df['Average Revenue per Game'].iloc[0])
-    st.write("**Publisher type :** " , publisher_selected_df['Publisher type'].iloc[0])
+    st.write("**Name :** " , publisher_selected_df['publisher_name'].iloc[0])
+    st.write("**Published games :** " , str(publisher_selected_df['published_games'].iloc[0]))
+    st.write("**First Game published :** " , str(publisher_selected_df['first_game_published'].iloc[0]))
+    st.write("**Last Game published :** " , str(publisher_selected_df['last_game_published'].iloc[0]))
+    publisher_selected_df['total_lifetime_revenue'] = publisher_selected_df.apply(lambda row: '$' + str(round(row['total_lifetime_revenue'] / 1000000,2)) + 'm', axis=1)
+    st.write("**Total Lifetime Revenue :** " , publisher_selected_df['total_lifetime_revenue'].iloc[0])
+    publisher_selected_df['average_revenue_game'] = publisher_selected_df.apply(lambda row: '$' + str(round(row['average_revenue_game'] / 1000000,2)) + 'm', axis=1)
+    st.write("**Average Revenue per Game :** " , publisher_selected_df['average_revenue_game'].iloc[0])
+    st.write("**Publisher type :** " , publisher_selected_df['publisher_type'].iloc[0])
 
 with columns[1]:
     st.markdown("#### Genre Distribution")
     fig, ax = plt.subplots(figsize=(7, 7))
-    fig.patch.set_facecolor('beige')
+    #fig.patch.set_facecolor('beige')
     plt.pie(df_genre_selected.count_genre, labels=df_genre_selected.genre, autopct=my_autopct, wedgeprops=dict(width=0.5), textprops={'fontsize': 11}, labeldistance=None, startangle=90)
     plt.legend(loc="best")
     st.pyplot(fig)
@@ -87,4 +86,3 @@ with container:
     st.markdown(f"#### All Steam games published by {publisher_selected}")
     df_games_pub.index.name='#'
     st.write(df_games_pub)
-    

@@ -4,6 +4,10 @@ import mysql.connector
 import io
 import pandas as pd
 import numpy as np
+import deepl
+
+auth_key = 'e1bb219b-ef14-a919-3e2a-e1189456570e:fx'
+translator = deepl.Translator(auth_key)
 
 pd.set_option('display.max_columns', True)
 # Initializing connection.
@@ -51,21 +55,22 @@ df_performances = pd.read_sql(f"SELECT * FROM performances WHERE steam_id = {id}
 text = f'''<hr>'''
 st.title(f"{game_selected} - Steam stats")
 st.markdown(text,unsafe_allow_html=True)
-
+st.write(game_selected_df)
     
 columns = st.columns((1, 1))
 
 with columns[0]:
     st.subheader(f"Game overview")
-    st.write("**Developers:** " , game_selected_df['Developers'].iloc[0])
-    st.write("**Publishers**: " , game_selected_df['Publishers'].iloc[0])
-    st.write("**Release Date:** " , str(game_selected_df['Release Date'].iloc[0]))
-    st.write("**Current price:**  $" , str(game_selected_df['Current Price'].iloc[0]))
-    st.write("**Avg price during last 6 months:** " , '$',str(game_selected_df['Avg Price during last 6 months'].iloc[0]))
-    st.write("**Genres:** " , game_selected_df['Genres'].iloc[0])
-    st.write("**Languages:** " , game_selected_df['Languages'].iloc[0])
-    #st.write("**Description:** " , game_selected_df['Description'].iloc[0])
-    st.write("**Steam link:** " , game_selected_df['Game URL Link'].iloc[0])
+    st.write("**Developers:** " , game_selected_df['developers'].iloc[0])
+    st.write("**Publishers**: " , game_selected_df['publishers'].iloc[0])
+    st.write("**Release Date:** " , str(game_selected_df['release_date'].iloc[0]))
+    st.write("**Current price:**  $" , str(game_selected_df['price'].iloc[0]))
+    st.write("**Avg price during last 6 months:** " , '$',str(game_selected_df['avgPrice6Months'].iloc[0]))
+    st.write("**Genres:** " , game_selected_df['genres'].iloc[0])
+    st.write("**Languages:** " , game_selected_df['languages'].iloc[0])  
+    game_selected_df['description'] = game_selected_df['description'].apply(lambda x: translator.translate_text(x, target_lang="EN-GB") if type(x) == str else x)
+    st.write("**Description:** " , str(game_selected_df['description'].iloc[0]))
+    st.write("**Steam link:** " , game_selected_df['game_URL_link'].iloc[0])
 
 with columns[1]:
     st.subheader(f"Player Insights - Players by Region")

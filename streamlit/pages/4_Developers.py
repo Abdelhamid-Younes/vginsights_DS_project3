@@ -30,11 +30,11 @@ def max_width():
 max_width()
 
 df_developers = pd.read_sql("SELECT * FROM developer_stats",conn)
-df_developers = df_developers.sort_values('Total Lifetime Revenue', ascending=False)
-developer_name = df_developers['Developer name'].drop_duplicates()
+df_developers = df_developers.sort_values('total_lifetime_revenue', ascending=False)
+developer_name = df_developers['developer_name'].drop_duplicates()
 
 developer_selected = st.sidebar.selectbox('Select a developer:', developer_name)
-developer_selected_df = df_developers.loc[df_developers["Developer name"] == developer_selected]
+developer_selected_df = df_developers.loc[df_developers["developer_name"] == developer_selected]
 
 df_genre_selected = pd.read_sql(f'''SELECT genres.genre, COUNT(*) AS count_genre
                            FROM games
@@ -61,14 +61,14 @@ columns = st.columns((1, 1))
 
 with columns[0]:
     st.markdown(f"#### Overview of {developer_selected}")
-    st.write("**Name :** " , developer_selected_df['Developer name'].iloc[0])
-    st.write("**Developed games :** " , str(developer_selected_df['Developed Games'].iloc[0]))
-    st.write("**First Game developed :** " , str(developer_selected_df['First Game Developed'].iloc[0]))
-    st.write("**Last Game developed :** " , str(developer_selected_df['Last Game Developed'].iloc[0]))
-    developer_selected_df['Total Lifetime Revenue'] = developer_selected_df.apply(lambda row: '$' + str(round(row['Total Lifetime Revenue'] / 1000000,2)) + 'm', axis=1)
-    st.write("**Total Lifetime Revenue :** " , developer_selected_df['Total Lifetime Revenue'].iloc[0])
-    developer_selected_df['Average Revenue per Game'] = developer_selected_df.apply(lambda row: '$' + str(round(row['Average Revenue per Game'] / 1000000,2)) + 'm', axis=1)
-    st.write("**Average Revenue per Game :** " , developer_selected_df['Average Revenue per Game'].iloc[0])
+    st.write("**Name :** " , developer_selected_df['developer_name'].iloc[0])
+    st.write("**Developed games :** " , str(developer_selected_df['developed_games'].iloc[0]))
+    st.write("**First Game developed :** " , str(developer_selected_df['first_game_developed'].iloc[0]))
+    st.write("**Last Game developed :** " , str(developer_selected_df['last_game_developed'].iloc[0]))
+    developer_selected_df['total_lifetime_revenue'] = developer_selected_df.apply(lambda row: '$' + str(round(row['total_lifetime_revenue'] / 1000000,2)) + 'm', axis=1)
+    st.write("**Total Lifetime Revenue :** " , developer_selected_df['total_lifetime_revenue'].iloc[0])
+    developer_selected_df['Average Revenue per Game'] = developer_selected_df.apply(lambda row: '$' + str(round(row['average_revenue_game'] / 1000000,2)) + 'm', axis=1)
+    st.write("**Average Revenue per Game :** " , developer_selected_df['average_revenue_game'].iloc[0])
     
 
 with columns[1]:

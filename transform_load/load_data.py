@@ -119,7 +119,7 @@ def create_df_meta(data_dir_path):
     
     df_meta = pd.DataFrame()
     for i, file in enumerate(files_list):
-        print(f"Processing metadata files... {round(((i+1)/len(files_list))*100, 2)}% complete                   ", end='\r')
+        print(f"Processing metadata files... {round(((i+1)/len(files_list))*100, 2)}% complete                                                 ", end='\r')
         data = pd.json_normalize(json.load(open(file)))
         df_meta = pd.concat([df_meta,data],axis=0)
     
@@ -130,6 +130,7 @@ def create_df_meta(data_dir_path):
                               'meta.releaseDate':'releaseDate',
                               'meta.shortDescription':'shortDescription',
                               'meta.earliestReviewDate':'earliestReviewDate'}, inplace = True)
+    
     return df_meta
     
     
