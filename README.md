@@ -56,3 +56,5 @@ $ cd ./streamlit/
 $ streamlit run home.py
 ```
 And the app should then be available at [localhost:8501](https://localhost:8501)!!
+
+![VGI_app](https://user-images.githubusercontent.com/114106183/225024192-b16fa897-8057-485d-ad33-80f9bec1ad46.png)
