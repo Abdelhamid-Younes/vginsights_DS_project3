@@ -82,3 +82,22 @@ elif choice == 'New followers':
     ax.set_title("Top Games Last Week by Niew Followers")
     st.pyplot(fig)
     #st.dataframe(df)
+
+container = st.container()
+with container:
+    st.subheader(f"Top 10 developers by total lifetime revenue")
+    df = pd.read_sql("SELECT developer_name, total_lifetime_revenue FROM developer_stats ORDER BY total_lifetime_revenue DESC LIMIT 10;",conn)
+    df['total_lifetime_revenue'] = df.apply(lambda row: round(row['total_lifetime_revenue'] / 1000000,2), axis=1)
+    fig, ax = plt.subplots(figsize=(12, 4))
+    plt.rc('xtick', labelsize=12)    # fontsize of the tick labels
+    plt.rc('ytick', labelsize=12)
+    plt.xticks(rotation = 30, ha="right")
+    plt.grid(axis='y')
+    plt.bar(df['developer_name'], df['total_lifetime_revenue'], color='green')
+    ax.set_ylabel("Value in $")
+    ax.set_xlabel("Developers")
+    ax.set_title("Top developers Life Time Revenue")
+
+    plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%dm'))
+    st.pyplot(fig)
+    st.write(df)

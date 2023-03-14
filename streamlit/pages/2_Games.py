@@ -55,7 +55,6 @@ df_performances = pd.read_sql(f"SELECT * FROM performances WHERE steam_id = {id}
 text = f'''<hr>'''
 st.title(f"{game_selected} - Steam stats")
 st.markdown(text,unsafe_allow_html=True)
-st.write(game_selected_df)
     
 columns = st.columns((1, 1))
 

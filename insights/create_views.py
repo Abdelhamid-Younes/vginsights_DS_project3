@@ -70,9 +70,9 @@ stat_views = {
                         FROM 
                             publishers
                         JOIN games ON publishers.steam_id = games.steam_id
-                        GROUP BY 
-                            publishers.publisher, 
-                            publishers.publisher_type; 
+                        GROUP BY
+                            publishers.publisher,
+                            publishers.publisher_type;
                                                     """,
 
     "game_overview": """
