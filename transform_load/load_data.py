@@ -245,7 +245,7 @@ def create_df_history(data_dir_path):
     Returns:
         Dataframe: Returns a dataframe with a cleaned data ready to load to db.
     """
-    '''files_list = glob.glob('{}/Games5/*history_url.json'.format(data_dir_path))
+    files_list = glob.glob('{}/Games5/*history_url.json'.format(data_dir_path))
     df_history = pd.DataFrame()
     for i, file in enumerate(files_list):
         print(f"Processing history files... {round(((i+1)/len(files_list))*100, 2)}% complete", end='\r')
@@ -255,9 +255,9 @@ def create_df_history(data_dir_path):
         data.drop(['steam_id'], axis=1, inplace=True)
         data.insert(0, 'steam_id', steam_id)
         df_history = pd.concat([df_history,data],axis=0)
-    df_history.to_csv('{}/history.csv'.format(data_dir_path), index=False)'''
+    df_history.to_csv('{}/history.csv'.format(data_dir_path), index=False)
     #df_history = pd.read_csv('{}/history.csv'.format(data_dir_path))
-    df_history = pd.read_csv('./database//history.csv')
+    #df_history = pd.read_csv('./database//history.csv')
 
     return df_history
     
