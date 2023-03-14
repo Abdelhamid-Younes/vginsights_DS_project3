@@ -3,6 +3,7 @@ from mysql.connector import Error
 
 
 def create_insights(sql_insights, host, db_name, user, password):
+    
     """This function serves to Create some insights using SQL queries
 
     Args:
@@ -27,7 +28,8 @@ def create_insights(sql_insights, host, db_name, user, password):
         for view in sql_insights.keys():
             try: 
                 cursor = conn.cursor()
-                cursor.execute(f"CREATE OR REPLACE VIEW {view} AS {sql_insights.get(view)}")
+                cursor.execute(f"DROP TABLE IF EXISTS {view}")
+                cursor.execute(f"CREATE TABLE {view} AS {sql_insights.get(view)}")
                 conn.commit()
                 print(f"The insights TABLE {view} created successfully {view}")
                 
